@@ -20,7 +20,6 @@ const APIController = (function () {
 
         const data = await result.json()
         return data.access_token
-        console.log(data.access_token);
         
     }
 
