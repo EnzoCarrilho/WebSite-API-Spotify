@@ -3,3 +3,27 @@
     margin: 0;
     box-sizing: border-box;
 }
+body{
+    height: 100vh;
+}
+
+header{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+input{
+    height: 24px;
+    width: 50%;
+    border-radius: 8px;
+}
+
+main{
+    display: flex;
+    flex-grow: 1;
+    padding-left: 10%;
+    padding-right: 10%;
+    margin-top: 20px;
+}
+
