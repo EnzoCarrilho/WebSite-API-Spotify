@@ -60,10 +60,40 @@ const APIController = (function () {
 
 })();
 
-//const apiController = APIController
-//const token = await apiController.getToken()
+const apiController = APIController
+const token = await apiController.getToken()
 //console.log('Token atual: ' + token)
 //const idArista = await apiController.getArtistIdByName('Led Zeppelin', token)
 //console.log('ID do artista: ' + idArista)
 //const albumsDoArtista = await apiController.getArtistAlbums(idArista, token)
 //console.log(albumsDoArtista)
+
+function criarGaleriaAlbuns(srcImagem, nomeAlbum){
+    const galeria = document.getElementById('galeria')
+    const album = document.createElement('div')
+    const imagem = document.createElement('img')
+    const nome = document.createElement('p')
+    imagem.src = srcImagem
+    nome.textContent = nomeAlbum
+
+    galeria.appendChild(album)
+
+    album.appendChild(imagem)
+    album.appendChild(nome)
+
+    album.addEventListener('click', )
+}
+
+const botaoBuscar = document.getElementById('buscar')
+    botaoBuscar.addEventListener('click', async () => {
+        const artista = document.getElementById('input-artista').value
+        
+        galeria.innerHTML = '';
+        const idArtista = await apiController.getArtistIdByName(artista, token)
+        const albuns = await apiController.getArtistAlbums(idArtista, token)
+
+        for(let i = 0; i < albuns.length; i++){
+            criarGaleriaAlbuns(albuns[i].images[0].url, albuns[i].name)
+        }
+})
+
