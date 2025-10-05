@@ -32,6 +32,17 @@ const APIController = (function () {
         const data = await response.json();
         const artist = data.artists.items[0]; // pega o primeiro resultado
         return artist ? artist.id : null;
+    } 
+
+    const getArtistDetails = async (artistId, token) => {
+    const response = await fetch(`https://api.spotify.com/v1/artists/${artistId}`, {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+
+        const data = await response.json();
+        return data;
     }
 
     const getArtistAlbums = async (artistId, token) => {
@@ -45,7 +56,7 @@ const APIController = (function () {
         return data.items;
     }
 
-    const getAlbumSongs = async (albumId, token) => {
+    const getAlbumDetails = async (albumId, token) => {
     const result = await fetch(`https://api.spotify.com/v1/albums/${albumId}/tracks?limit=50`, {
         headers: {
             'Authorization': 'Bearer ' + token
@@ -64,12 +75,16 @@ const APIController = (function () {
         getArtistIdByName(artistName, token){
             return getArtistIdByName(artistName, token)
         },
+        getArtistDetails(artistId, token){
+            return getArtistDetails(artistId, token)
+        },
         getArtistAlbums(artistId, token){
             return getArtistAlbums(artistId, token)
         },
-        getAlbumSongs(albumid, token){
-            return getAlbumSongs(albumid, token)
+        getAlbumDetails(albumid, token){
+            return getAlbumDetails(albumid, token)
         }
+        
     }
 
 })();
@@ -77,34 +92,109 @@ const APIController = (function () {
 const apiController = APIController
 const token = await apiController.getToken()
 
-function criarGaleriaAlbuns(srcImagem, nomeAlbum){
-    const galeria = document.getElementById('galeria')
-    const album = document.createElement('div')
-    const imagem = document.createElement('img')
-    const nome = document.createElement('p')
-    imagem.src = srcImagem
-    nome.textContent = nomeAlbum
+const idArtista = await apiController.getArtistIdByName('Led Zeppelin', token)
+const descricaoArtista = await apiController.getArtistDetails(idArtista, token)
+const albuns = await apiController.getArtistDetails(idArtista, token)
+console.log(albuns)
+const descricaoAlbum = await apiController.getAlbumDetails('6VH2op0GKIl3WNTbZmmcmI', token)
+console.log(descricaoAlbum)
 
-    galeria.appendChild(album)
+if (document.getElementById('buscar')) {
 
-    album.appendChild(imagem)
-    album.appendChild(nome)
+    function criarGaleriaAlbuns(srcImagem, nomeAlbum, albumId){
+        const galeria = document.getElementById('galeria')
+        const album = document.createElement('div')
+        const imagem = document.createElement('img')
+        const nome = document.createElement('p')
+        imagem.src = srcImagem
+        nome.textContent = nomeAlbum
 
-    album.addEventListener('click', () => {
-        window.location.href = './album.html'
+        album.dataset.albumId = albumId
+        imagem.dataset.albumImg = srcImagem
+        nome.dataset.albumName = nomeAlbum
+
+        galeria.appendChild(album)
+
+        album.appendChild(imagem)
+        album.appendChild(nome)
+
+        album.addEventListener('click', () => {
+            sessionStorage.setItem('albumId', albumId)
+            sessionStorage.setItem('albumImage', srcImagem)
+            sessionStorage.setItem('albumName', nomeAlbum)
+            window.location.href = './album.html'
+        })
+        
+    }
+
+    const botaoBuscar = document.getElementById('buscar')
+        botaoBuscar.addEventListener('click', async () => {
+            const artista = document.getElementById('input-artista').value
+
+            galeria.innerHTML = '';
+            const idArtista = await apiController.getArtistIdByName(artista, token)
+            const albuns = await apiController.getArtistAlbums(idArtista, token)
+
+            for(let i = 0; i < albuns.length; i++){
+                criarGaleriaAlbuns(albuns[i].images[0].url, albuns[i].name, albuns[i].id)
+            }
     })
 }
 
-const botaoBuscar = document.getElementById('buscar')
-    botaoBuscar.addEventListener('click', async () => {
-        const artista = document.getElementById('input-artista').value
-        
-        galeria.innerHTML = '';
-        const idArtista = await apiController.getArtistIdByName(artista, token)
-        const albuns = await apiController.getArtistAlbums(idArtista, token)
 
-        for(let i = 0; i < albuns.length; i++){
-            criarGaleriaAlbuns(albuns[i].images[0].url, albuns[i].name)
-        }
-})
+
+if (window.location.pathname.includes('album.html')) {
+    
+    const albumId = sessionStorage.getItem('albumId');
+    const albumImage = sessionStorage.getItem('albumImage');
+    const albumName = sessionStorage.getItem('albumName')
+    
+    async function criarTelaAlbum(){
+
+        await criarTelaAlbumHeader()
+
+    }
+
+    async function criarTelaAlbumHeader(){
+
+        const headerAlbum = document.getElementById('header-album')
+
+        const artista = document.createElement('div')
+        const imagemAlbum = document.createElement('img')
+        const nomeAlbum = document.createElement('h1')
+
+        headerAlbum.appendChild(imagemAlbum)
+        headerAlbum.appendChild(nomeAlbum)
+        headerAlbum.appendChild(artista)
+
+        const imagemArtista = document.createElement('img')
+        const nomeArtista = document.createElement('p')
+
+        artista.appendChild(imagemArtista)
+        artista.appendChild(nomeArtista)
+
+        imagemAlbum.src = albumImage 
+        nomeAlbum.textContent = albumName
+
+        const artistaDetalhes = await apiController.getArtistDetails(idArtista, token)
+        imagemArtista.src = artistaDetalhes.images[0].url
+        nomeArtista.textContent = artistaDetalhes.name
+    }
+
+    async function criarTelaAlbumMain(){
+
+        const musicas = document.createElement('div')
+        const nomeMusica = document.createElement('p')
+    }
+
+    criarTelaAlbum()
+
+    
+
+
+}
+
+
+
+
 
