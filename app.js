@@ -92,14 +92,14 @@ const APIController = (function () {
 const apiController = APIController
 const token = await apiController.getToken()
 
-const idArtista = await apiController.getArtistIdByName('Led Zeppelin', token)
-const descricaoArtista = await apiController.getArtistDetails(idArtista, token)
-const artisitDetails = await apiController.getArtistDetails(idArtista, token)
-console.log(artisitDetails)
-const descricaoAlbum = await apiController.getAlbumDetails('6VH2op0GKIl3WNTbZmmcmI', token)
-console.log(descricaoAlbum)
-const albuns = await apiController.getArtistAlbums(idArtista, token)
-console.log(albuns)
+//const idArtista = await apiController.getArtistIdByName('Led Zeppelin', token)
+//const descricaoArtista = await apiController.getArtistDetails(idArtista, token)
+//const artisitDetails = await apiController.getArtistDetails(idArtista, token)
+//console.log(artisitDetails)
+//const descricaoAlbum = await apiController.getAlbumDetails('6VH2op0GKIl3WNTbZmmcmI', token)
+//console.log(descricaoAlbum)
+//const albuns = await apiController.getArtistAlbums(idArtista, token)
+//console.log(albuns)
 
 if (document.getElementById('buscar')) {
 
@@ -137,6 +137,7 @@ if (document.getElementById('buscar')) {
 
             galeria.innerHTML = '';
             const idArtista = await apiController.getArtistIdByName(artista, token)
+            sessionStorage.setItem('artistId', idArtista);
             const albuns = await apiController.getArtistAlbums(idArtista, token)
 
             for(let i = 0; i < albuns.length; i++){
@@ -149,10 +150,13 @@ if (document.getElementById('buscar')) {
 
 if (window.location.pathname.includes('album.html')) {
     
-    const albumId = sessionStorage.getItem('albumId');
-    const albumImage = sessionStorage.getItem('albumImage');
+    const albumId = sessionStorage.getItem('albumId')
+    const albumImage = sessionStorage.getItem('albumImage')
     const albumName = sessionStorage.getItem('albumName')
     const releaseDate = sessionStorage.getItem('releaseDate')
+    const artistId = sessionStorage.getItem('artistId')
+    console.log(artistId)
+    
     
     async function criarTelaAlbum(){
 
@@ -185,7 +189,7 @@ if (window.location.pathname.includes('album.html')) {
         nomeAlbum.textContent = albumName
         dataLancamento.textContent = releaseDate
 
-        const artistaDetalhes = await apiController.getArtistDetails(idArtista, token)
+        const artistaDetalhes = await apiController.getArtistDetails(artistId, token)
         imagemArtista.src = artistaDetalhes.images[0].url
         nomeArtista.textContent = artistaDetalhes.name
     }
@@ -199,7 +203,7 @@ if (window.location.pathname.includes('album.html')) {
 
         main.appendChild(musicas)
         
-        const artistaDetalhes = await apiController.getArtistDetails(idArtista, token)
+        const artistaDetalhes = await apiController.getArtistDetails(artistId, token)
         const albumDetails = await apiController.getAlbumDetails(albumId, token)
         for(let i = 0; i < albumDetails.length; i++){
                 const nomeMusica = document.createElement('p')
