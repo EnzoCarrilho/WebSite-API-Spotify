@@ -94,14 +94,16 @@ const token = await apiController.getToken()
 
 const idArtista = await apiController.getArtistIdByName('Led Zeppelin', token)
 const descricaoArtista = await apiController.getArtistDetails(idArtista, token)
-const albuns = await apiController.getArtistDetails(idArtista, token)
-console.log(albuns)
+const artisitDetails = await apiController.getArtistDetails(idArtista, token)
+console.log(artisitDetails)
 const descricaoAlbum = await apiController.getAlbumDetails('6VH2op0GKIl3WNTbZmmcmI', token)
 console.log(descricaoAlbum)
+const albuns = await apiController.getArtistAlbums(idArtista, token)
+console.log(albuns)
 
 if (document.getElementById('buscar')) {
 
-    function criarGaleriaAlbuns(srcImagem, nomeAlbum, albumId){
+    function criarGaleriaAlbuns(srcImagem, nomeAlbum, albumId, dataLancamento){
         const galeria = document.getElementById('galeria')
         const album = document.createElement('div')
         const imagem = document.createElement('img')
@@ -110,6 +112,7 @@ if (document.getElementById('buscar')) {
         nome.textContent = nomeAlbum
 
         album.dataset.albumId = albumId
+        album.dataset.releaseDate = dataLancamento
         imagem.dataset.albumImg = srcImagem
         nome.dataset.albumName = nomeAlbum
 
@@ -122,6 +125,7 @@ if (document.getElementById('buscar')) {
             sessionStorage.setItem('albumId', albumId)
             sessionStorage.setItem('albumImage', srcImagem)
             sessionStorage.setItem('albumName', nomeAlbum)
+            sessionStorage.setItem('releaseDate', dataLancamento)
             window.location.href = './album.html'
         })
         
@@ -136,7 +140,7 @@ if (document.getElementById('buscar')) {
             const albuns = await apiController.getArtistAlbums(idArtista, token)
 
             for(let i = 0; i < albuns.length; i++){
-                criarGaleriaAlbuns(albuns[i].images[0].url, albuns[i].name, albuns[i].id)
+                criarGaleriaAlbuns(albuns[i].images[0].url, albuns[i].name, albuns[i].id, albuns[i].release_date)
             }
     })
 }
@@ -148,10 +152,12 @@ if (window.location.pathname.includes('album.html')) {
     const albumId = sessionStorage.getItem('albumId');
     const albumImage = sessionStorage.getItem('albumImage');
     const albumName = sessionStorage.getItem('albumName')
+    const releaseDate = sessionStorage.getItem('releaseDate')
     
     async function criarTelaAlbum(){
 
         await criarTelaAlbumHeader()
+        await criarTelaAlbumMain()
 
     }
 
@@ -162,10 +168,12 @@ if (window.location.pathname.includes('album.html')) {
         const artista = document.createElement('div')
         const imagemAlbum = document.createElement('img')
         const nomeAlbum = document.createElement('h1')
+        const dataLancamento = document.createElement('span')
 
         headerAlbum.appendChild(imagemAlbum)
         headerAlbum.appendChild(nomeAlbum)
         headerAlbum.appendChild(artista)
+        headerAlbum.appendChild(dataLancamento)
 
         const imagemArtista = document.createElement('img')
         const nomeArtista = document.createElement('p')
@@ -175,6 +183,7 @@ if (window.location.pathname.includes('album.html')) {
 
         imagemAlbum.src = albumImage 
         nomeAlbum.textContent = albumName
+        dataLancamento.textContent = releaseDate
 
         const artistaDetalhes = await apiController.getArtistDetails(idArtista, token)
         imagemArtista.src = artistaDetalhes.images[0].url
@@ -183,14 +192,27 @@ if (window.location.pathname.includes('album.html')) {
 
     async function criarTelaAlbumMain(){
 
+        const main = document.getElementById('musicas')
+        
         const musicas = document.createElement('div')
-        const nomeMusica = document.createElement('p')
+        
+
+        main.appendChild(musicas)
+        
+        const artistaDetalhes = await apiController.getArtistDetails(idArtista, token)
+        const albumDetails = await apiController.getAlbumDetails(albumId, token)
+        for(let i = 0; i < albumDetails.length; i++){
+                const nomeMusica = document.createElement('p')
+                const nomeArtista = document.createElement('span')
+                musicas.appendChild(nomeMusica)
+                musicas.appendChild(nomeArtista)
+                nomeMusica.textContent = albumDetails[i].name
+                nomeArtista.textContent = artistaDetalhes.name
+            }
+        
     }
 
     criarTelaAlbum()
-
-    
-
 
 }
 
