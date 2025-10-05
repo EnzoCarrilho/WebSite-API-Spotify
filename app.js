@@ -5,7 +5,7 @@ const APIController = (function () {
     const clientId = 'd12cf77d531548e18e4b051481c99c15'
     const clientSecret = '0a40b70a6ffc4ec28ae8c3024a17fcd4'
 
-    //private methods
+    //métodos privados
     
     const getToken = async () => {
 
@@ -39,10 +39,21 @@ const APIController = (function () {
         headers: {
             'Authorization': 'Bearer ' + token
         }
-    });
+    })
 
         const data = await result.json();
         return data.items;
+    }
+
+    const getAlbumSongs = async (albumId, token) => {
+    const result = await fetch(`https://api.spotify.com/v1/albums/${albumId}/tracks?limit=50`, {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+
+        const data = await result.json();
+        return data.items; // cada item é uma música
     }
 
     
@@ -55,6 +66,9 @@ const APIController = (function () {
         },
         getArtistAlbums(artistId, token){
             return getArtistAlbums(artistId, token)
+        },
+        getAlbumSongs(albumid, token){
+            return getAlbumSongs(albumid, token)
         }
     }
 
@@ -62,11 +76,6 @@ const APIController = (function () {
 
 const apiController = APIController
 const token = await apiController.getToken()
-//console.log('Token atual: ' + token)
-//const idArista = await apiController.getArtistIdByName('Led Zeppelin', token)
-//console.log('ID do artista: ' + idArista)
-//const albumsDoArtista = await apiController.getArtistAlbums(idArista, token)
-//console.log(albumsDoArtista)
 
 function criarGaleriaAlbuns(srcImagem, nomeAlbum){
     const galeria = document.getElementById('galeria')
@@ -81,7 +90,9 @@ function criarGaleriaAlbuns(srcImagem, nomeAlbum){
     album.appendChild(imagem)
     album.appendChild(nome)
 
-    album.addEventListener('click', )
+    album.addEventListener('click', () => {
+        window.location.href = './album.html'
+    })
 }
 
 const botaoBuscar = document.getElementById('buscar')
