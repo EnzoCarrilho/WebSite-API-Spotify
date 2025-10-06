@@ -5,25 +5,86 @@
 }
 body{
     height: 100vh;
+    background-color: black;
 }
 
 header{
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    height: 40px;
+    gap: 18px;
+    position: relative;
+    
 }
 
-input{
-    height: 24px;
+header input{
+    height: 100%;
+    background-image: url(./img/search-icon.svg);
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: 32px, 32px;
     width: 50%;
+    border-radius: 24px;
+    padding: 18px;
+}
+
+header button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    font-family: inter;
     border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 main{
     display: flex;
+    height: 100%;
     flex-grow: 1;
     padding-left: 10%;
     padding-right: 10%;
+    padding-bottom: 20px;
     margin-top: 20px;
+    gap: 24px;
 }
 
+main h2{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 34px;
+    width: 76px;
+    background-color: #61E54F;
+    font-size: 12px;
+    border-radius: 12px;
+    font-family: inter;
+    font-weight: 800;
+}
+
+.galeria{
+    width: 100% ;
+    height: 100% ;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
+    justify-content: space-between;
+    margin-top: 80px;
+}
+
+.album{
+    height: 60%;
+    width: 60%;
+    color: white;
+}
+
+.album p{
+    justify-self: center;
+}
+
+.capa-album{
+    height: 100%;
+    background-color: tomato;
+}
