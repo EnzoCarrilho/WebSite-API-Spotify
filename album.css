@@ -5,4 +5,36 @@
 }
 body{
     height: 100vh;
+    background:linear-gradient(#5E1C1D 10%,#060606 35%)
+}
+
+header{
+    display: flex;
+    margin-left: 40px;
+    margin-top: 40px;
+    gap: 40px;
+    color: white;
+}
+
+.imagem-album{
+    height: 233px;
+    width: 233px;
+    background-color: lightblue;
+}
+
+.imagem-artista{
+    height: 24px;
+    width: 36px;
+    border-radius: 50px;
+    background-color: blueviolet;
+}
+
+.artista{
+    display: flex;
+    margin-top: 12px;
+}
+
+main{
+    height: 75%;
+    color: white;
 }

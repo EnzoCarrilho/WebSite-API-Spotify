@@ -29,9 +29,9 @@ const APIController = (function () {
         }
     })
 
-        const data = await response.json();
-        const artist = data.artists.items[0]; // pega o primeiro resultado
-        return artist ? artist.id : null;
+        const data = await response.json()
+        const artist = data.artists.items[0] // pega o primeiro resultado
+        return artist ? artist.id : null
     } 
 
     const getArtistDetails = async (artistId, token) => {
@@ -41,8 +41,8 @@ const APIController = (function () {
         }
     })
 
-        const data = await response.json();
-        return data;
+        const data = await response.json()
+        return data
     }
 
     const getArtistAlbums = async (artistId, token) => {
@@ -52,8 +52,8 @@ const APIController = (function () {
         }
     })
 
-        const data = await result.json();
-        return data.items;
+        const data = await result.json()
+        return data.items
     }
 
     const getAlbumDetails = async (albumId, token) => {
@@ -63,8 +63,8 @@ const APIController = (function () {
         }
     })
 
-        const data = await result.json();
-        return data.items; // cada item é uma música
+        const data = await result.json()
+        return data.items // cada item é uma música
     }
 
     
