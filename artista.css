@@ -1,0 +1,12 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height: 100vh;
+    background:linear-gradient(#5E1C1D 10%,#060606 35%);
+    font-family: poppins;
+    overflow: hidden;
+}

@@ -92,10 +92,10 @@ const APIController = (function () {
 const apiController = APIController
 const token = await apiController.getToken()
 
-//const idArtista = await apiController.getArtistIdByName('Led Zeppelin', token)
+const idArtista = await apiController.getArtistIdByName('Led Zeppelin', token)
 //const descricaoArtista = await apiController.getArtistDetails(idArtista, token)
-//const artisitDetails = await apiController.getArtistDetails(idArtista, token)
-//console.log(artisitDetails)
+const artisitDetails = await apiController.getArtistDetails(idArtista, token)
+console.log(artisitDetails)
 //const descricaoAlbum = await apiController.getAlbumDetails('6VH2op0GKIl3WNTbZmmcmI', token)
 //console.log(descricaoAlbum)
 //const albuns = await apiController.getArtistAlbums(idArtista, token)
@@ -183,17 +183,22 @@ if (window.location.pathname.includes('album.html')) {
         const nomeAlbum = document.createElement('h1')
         const dataLancamento = document.createElement('span')
 
+        const sobreArtista = document.createElement('a')
+
         headerAlbum.appendChild(imagemAlbum)
         headerAlbum.appendChild(infoAlbum)
         infoAlbum.appendChild(nomeAlbum)
         infoAlbum.appendChild(artista)
         infoAlbum.appendChild(dataLancamento)
+        infoAlbum.appendChild(sobreArtista)
 
         const imagemArtista = document.createElement('img')
         const nomeArtista = document.createElement('p') 
 
         artista.appendChild(imagemArtista)
         artista.appendChild(nomeArtista)
+        
+
 
        imagemAlbum .className = 'imagem-album'
        infoAlbum.className = 'info-album'
@@ -203,6 +208,8 @@ if (window.location.pathname.includes('album.html')) {
         imagemAlbum.src = albumImage 
         nomeAlbum.textContent = albumName
         dataLancamento.textContent = date
+        sobreArtista.textContent = 'Sobre o Artista'
+        sobreArtista.href = './artista.html'
 
         const artistaDetalhes = await apiController.getArtistDetails(artistId, token)
         imagemArtista.src = artistaDetalhes.images[0].url
@@ -219,18 +226,32 @@ if (window.location.pathname.includes('album.html')) {
                 const nomeMusica = document.createElement('p')
                 const nomeArtista = document.createElement('span')
                 const musicas = document.createElement('div')
+                const more = document.createElement('img')
                 main.appendChild(musicas)
                 musicas.appendChild(nomeMusica)
                 musicas.appendChild(nomeArtista)
+                musicas.appendChild(more)
                 nomeMusica.textContent = albumDetails[i].name
                 nomeArtista.textContent = artistaDetalhes.name
+                more.src = './img/more-button.png'
             }
     }
 
 
     criarTelaAlbum()
 
+} 
+
+
+if (window.location.pathname.includes('artista.html')) {
+    
+
 }
+
+
+
+    
+
 
 
 

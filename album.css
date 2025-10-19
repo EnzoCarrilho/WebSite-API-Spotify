@@ -19,27 +19,51 @@ header{
     position: sticky;
 }
 
+header span{
+    color:  lightgrey;
+}
+
 main{
     display: grid;
     overflow-y: scroll;
     scrollbar-width: none;
     place-items: center;
+    gap: 18px;
+}
+
+main div{
+    width: 600px;
+}
+
+main p{
+    font-size: 28px;
+}
+
+main span{
+    font-size: 20px;
+}
+
+main img{
+    display: flex;
+    justify-self: flex-end;
 }
 
 .imagem-album{
-    height: 233px;
-    width: 233px;
+    height: 280px;
+    width: 280px;
     background-color: lightblue;
 }
 
 .info-album{
+    display: flex;
+    flex-direction: column;
     gap: 12px;
 }
 
 
 .imagem-artista{
-    height: 24px;
-    width: 36px;
+    height: 32px;
+    width: 48px;
     border-radius: 50px;
     background-color: blueviolet;
 }
@@ -48,6 +72,19 @@ main{
     display: flex;
     margin-top: 12px;
     gap: 8px;
+    font-size: 20px;
+}
+
+.info-album h1{
+    font-size: 32px;
+}
+
+.info-album span{
+    font-size: 20px;
+}
+
+.info-album a{
+    color: darkgray;
 }
 
 
