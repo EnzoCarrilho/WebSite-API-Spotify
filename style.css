@@ -81,7 +81,8 @@ main h2{
 }
 
 .album p{
-    justify-self: center;
+    font-family: inter;
+    font-size: 24px;
 }
 
 .capa-album{

@@ -5,7 +5,9 @@
 }
 body{
     height: 100vh;
-    background:linear-gradient(#5E1C1D 10%,#060606 35%)
+    background:linear-gradient(#5E1C1D 10%,#060606 35%);
+    font-family: poppins;
+    overflow: hidden;
 }
 
 header{
@@ -14,6 +16,14 @@ header{
     margin-top: 40px;
     gap: 40px;
     color: white;
+    position: sticky;
+}
+
+main{
+    display: grid;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    place-items: center;
 }
 
 .imagem-album{
@@ -21,6 +31,11 @@ header{
     width: 233px;
     background-color: lightblue;
 }
+
+.info-album{
+    gap: 12px;
+}
+
 
 .imagem-artista{
     height: 24px;
@@ -32,7 +47,9 @@ header{
 .artista{
     display: flex;
     margin-top: 12px;
+    gap: 8px;
 }
+
 
 main{
     height: 75%;

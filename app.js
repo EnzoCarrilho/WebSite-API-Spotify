@@ -111,6 +111,9 @@ if (document.getElementById('buscar')) {
         imagem.src = srcImagem
         nome.textContent = nomeAlbum
 
+        album.className = 'album'
+        imagem.className= 'capa-album'
+
         album.dataset.albumId = albumId
         album.dataset.releaseDate = dataLancamento
         imagem.dataset.albumImg = srcImagem
@@ -155,8 +158,13 @@ if (window.location.pathname.includes('album.html')) {
     const albumName = sessionStorage.getItem('albumName')
     const releaseDate = sessionStorage.getItem('releaseDate')
     const artistId = sessionStorage.getItem('artistId')
-    console.log(artistId)
-    
+
+     function converterDataISOparaBR(dataISO) {
+        const [ano, mes, dia] = dataISO.split('-');
+        return `${dia}/${mes}/${ano}`;
+    }
+ 
+    const date = converterDataISOparaBR(releaseDate)
     
     async function criarTelaAlbum(){
 
@@ -168,6 +176,7 @@ if (window.location.pathname.includes('album.html')) {
     async function criarTelaAlbumHeader(){
 
         const headerAlbum = document.getElementById('header-album')
+        const infoAlbum = document.createElement('div')
 
         const artista = document.createElement('div')
         const imagemAlbum = document.createElement('img')
@@ -175,19 +184,25 @@ if (window.location.pathname.includes('album.html')) {
         const dataLancamento = document.createElement('span')
 
         headerAlbum.appendChild(imagemAlbum)
-        headerAlbum.appendChild(nomeAlbum)
-        headerAlbum.appendChild(artista)
-        headerAlbum.appendChild(dataLancamento)
+        headerAlbum.appendChild(infoAlbum)
+        infoAlbum.appendChild(nomeAlbum)
+        infoAlbum.appendChild(artista)
+        infoAlbum.appendChild(dataLancamento)
 
         const imagemArtista = document.createElement('img')
-        const nomeArtista = document.createElement('p')
+        const nomeArtista = document.createElement('p') 
 
         artista.appendChild(imagemArtista)
         artista.appendChild(nomeArtista)
 
+       imagemAlbum .className = 'imagem-album'
+       infoAlbum.className = 'info-album'
+       artista.className = 'artista'
+       imagemArtista.className = 'imagem-artista'
+
         imagemAlbum.src = albumImage 
         nomeAlbum.textContent = albumName
-        dataLancamento.textContent = releaseDate
+        dataLancamento.textContent = date
 
         const artistaDetalhes = await apiController.getArtistDetails(artistId, token)
         imagemArtista.src = artistaDetalhes.images[0].url
@@ -197,24 +212,21 @@ if (window.location.pathname.includes('album.html')) {
     async function criarTelaAlbumMain(){
 
         const main = document.getElementById('musicas')
-        
-        const musicas = document.createElement('div')
-        
-
-        main.appendChild(musicas)
-        
+    
         const artistaDetalhes = await apiController.getArtistDetails(artistId, token)
         const albumDetails = await apiController.getAlbumDetails(albumId, token)
         for(let i = 0; i < albumDetails.length; i++){
                 const nomeMusica = document.createElement('p')
                 const nomeArtista = document.createElement('span')
+                const musicas = document.createElement('div')
+                main.appendChild(musicas)
                 musicas.appendChild(nomeMusica)
                 musicas.appendChild(nomeArtista)
                 nomeMusica.textContent = albumDetails[i].name
                 nomeArtista.textContent = artistaDetalhes.name
             }
-        
     }
+
 
     criarTelaAlbum()
 
