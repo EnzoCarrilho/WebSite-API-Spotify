@@ -226,11 +226,15 @@ if (window.location.pathname.includes('album.html')) {
                 const nomeMusica = document.createElement('p')
                 const nomeArtista = document.createElement('span')
                 const musicas = document.createElement('div')
+                const musica = document.createElement('div')
+                musicas.className = 'musicas'
+                musica.className = 'musica'
                 const more = document.createElement('img')
                 main.appendChild(musicas)
-                musicas.appendChild(nomeMusica)
-                musicas.appendChild(nomeArtista)
-                musicas.appendChild(more)
+                musicas.appendChild(musica)
+                musica.appendChild(nomeMusica)
+                musica.appendChild(nomeArtista)
+                musica.appendChild(more)
                 nomeMusica.textContent = albumDetails[i].name
                 nomeArtista.textContent = artistaDetalhes.name
                 more.src = './img/more-button.png'
