@@ -23,6 +23,7 @@ header{
 
 main{
     display: flex;
+    flex-direction: column;
     padding-left: 5%;
     padding-right: 5%;
     width: 100%;
@@ -37,7 +38,7 @@ main p{
     width: 100%;
     display: flex;
     justify-content: space-between;
-    
+    padding-top: 48px;
 }
 
 .artista{
@@ -50,11 +51,19 @@ main p{
 }
 
 .popularidade{
-    padding-right: 250px;
+    padding-right: 325px;
 }
 
 .imagem-artista{
     width: 300px;
     height: 200px;
     background-color: turquoise;
+}
+
+.generos{
+    padding-top: 32px;
+}
+
+.generos h2{
+    font-size: 32px;
 }

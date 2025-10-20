@@ -244,7 +244,67 @@ if (window.location.pathname.includes('album.html')) {
 
 
 if (window.location.pathname.includes('artista.html')) {
-    
+
+    async function criarTelaArtista(){
+
+        const artistId = sessionStorage.getItem('artistId')
+        const detalhesArtista = await apiController.getArtistDetails(artistId, token)
+        
+        const header = document.getElementById('header')
+        const main = document.getElementById('main')
+
+        const nome = document.createElement('h1')
+        const quantidadeSeguidores = document.createElement('p')
+        const seguidoresSpan = document.createElement('span')
+        const popularidade = document.createElement('span')
+        const textPopularidade = document.createElement('p')
+        const textGenero = document.createElement('h2')
+        const imagem = document.createElement('img')
+
+        nome.textContent = detalhesArtista.name
+        seguidores.textContent = detalhesArtista.followers
+        seguidoresSpan.textContent = 'Seguidors'
+        popularidade.textContent = detalhesArtista.popularity
+        textPopularidade.textContent = 'Popularidade'
+        textGenero.textContent = 'Gêneros'
+        imagem.src = detalhesArtista.images[0].url
+
+        header.appendChild(nome)
+
+        const artistSection = document.createElement('div')
+        artistSection.className = 'artist-section'
+        
+        const artista = document.createElement('div')
+        artista.className = 'artista'
+
+        const seguidores = document.createElement('div')
+        seguidores.className = 'seguidores'
+        
+        const divPopularidade = document.createElement('div')
+        divPopularidade.className = 'popularidade'
+
+        const generos = document.createElement('div')
+        generos.className = 'generos'
+
+
+        header.appendChild(nome)
+        main.appendChild(artistSection)
+        
+        artistSection.appendChild(artista)
+        artista.appendChild(imagem)
+        artista.appendChild(seguidores)
+        seguidores.appendChild(quantidadeSeguidores)
+        seguidores.appendChild(seguidoresSpan)
+
+        artistSection.appendChild(popularidade)
+        popularidade.appendChild(textPopularidade)
+        popularidade.appendChild(popularidade)
+
+        main.appendChild(generos)
+        generos.appendChild(textGenero)
+    }
+
+    criarTelaArtista()
 
 }
 

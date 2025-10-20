@@ -89,3 +89,25 @@ main h2{
     height: 100%;
     background-color: tomato;
 }
+
+/*MOBILE*/
+@media(max-width: 768px){
+    header input{
+        font-size: 8px;
+        background-size: 24px, 24px;
+        padding: 8px;
+        height: 75%;
+    }
+
+    header button{
+        padding: 8px;
+        font-size: 12px;
+        height: 75%;
+    }
+
+    main h2{
+        width: 66px;
+        height: 24px;
+        font-size: 8px;
+    }
+}
