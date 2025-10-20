@@ -48,26 +48,39 @@ main img{
     justify-self: flex-end;
 }
 
-.actions{
+.botoes{
     display: flex;
     align-items: center;
     justify-content: center;
     padding-bottom: 24px;
     position: relative;
     justify-content: space-between;
-    
 }
+
+.botoes button{
+    background: none;
+    border: none;
+}
+
+.botoes-esquerda{
+    display: flex;
+    justify-content: space-between;
+    width: 150px;
+}
+
+
 
 .imagem-album{
     height: 280px;
     width: 280px;
-    background-color: lightblue;
+    
 }
 
 .info-album{
     display: flex;
     flex-direction: column;
     gap: 12px;
+    width: 70%;
 }
 
 

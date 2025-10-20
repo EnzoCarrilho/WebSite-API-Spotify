@@ -92,14 +92,6 @@ const APIController = (function () {
 const apiController = APIController
 const token = await apiController.getToken()
 
-const idArtista = await apiController.getArtistIdByName('Led Zeppelin', token)
-//const descricaoArtista = await apiController.getArtistDetails(idArtista, token)
-const artisitDetails = await apiController.getArtistDetails(idArtista, token)
-console.log(artisitDetails)
-//const descricaoAlbum = await apiController.getAlbumDetails('6VH2op0GKIl3WNTbZmmcmI', token)
-//console.log(descricaoAlbum)
-//const albuns = await apiController.getArtistAlbums(idArtista, token)
-//console.log(albuns)
 
 if (document.getElementById('buscar')) {
 
@@ -185,12 +177,46 @@ if (window.location.pathname.includes('album.html')) {
 
         const sobreArtista = document.createElement('a')
 
+         const divBotoes = document.createElement('div')
+        divBotoes.className = 'botoes'
+
+        const divEsquerda = document.createElement('div')
+        const divDireita = document.createElement('div')
+        divEsquerda.className = 'botoes-esquerda'
+        divDireita.className = 'botoes-diretita'
+
+        divBotoes.appendChild(divEsquerda)
+        divBotoes.appendChild(divDireita)
+
+        const botao1 = document.createElement('button')
+        const botao2 = document.createElement('button')
+        const botao3 = document.createElement('button')
+        const botao4 = document.createElement('button')
+
+        divEsquerda.appendChild(botao1)
+        divEsquerda.appendChild(botao2)
+        divEsquerda.appendChild(botao3)
+        divDireita.appendChild(botao4)
+
+        const imagem1 = document.createElement('img')
+        const imagem2 = document.createElement('img')
+        const imagem3 = document.createElement('img')
+        const imagem4 = document.createElement('img')
+        
+        botao1.appendChild(imagem1)
+        botao2.appendChild(imagem2)
+        botao3.appendChild(imagem3)
+        botao4.appendChild(imagem4)
+
+
         headerAlbum.appendChild(imagemAlbum)
         headerAlbum.appendChild(infoAlbum)
         infoAlbum.appendChild(nomeAlbum)
         infoAlbum.appendChild(artista)
         infoAlbum.appendChild(dataLancamento)
         infoAlbum.appendChild(sobreArtista)
+        infoAlbum.appendChild(divBotoes)
+
 
         const imagemArtista = document.createElement('img')
         const nomeArtista = document.createElement('p') 
@@ -198,7 +224,11 @@ if (window.location.pathname.includes('album.html')) {
         artista.appendChild(imagemArtista)
         artista.appendChild(nomeArtista)
         
-
+       
+        imagem1.src = './img/add-button.png'
+        imagem2.src = './img/download-button.png'
+        imagem3.src = './img/more-button.png'
+        imagem4.src = './img/play.svg'
 
        imagemAlbum .className = 'imagem-album'
        infoAlbum.className = 'info-album'
@@ -263,15 +293,13 @@ if (window.location.pathname.includes('artista.html')) {
         const popularidade = document.createElement('span')
         const textPopularidade = document.createElement('p')
         const textGenero = document.createElement('h2')
-        const imagem = document.createElement('img')
 
         nome.textContent = detalhesArtista.name
-        seguidores.textContent = detalhesArtista.followers
+        quantidadeSeguidores.textContent = detalhesArtista.followers.total
         seguidoresSpan.textContent = 'Seguidors'
         popularidade.textContent = detalhesArtista.popularity
         textPopularidade.textContent = 'Popularidade'
-        textGenero.textContent = 'Gêneros'
-        imagem.src = detalhesArtista.images[0].url
+        textGenero.textContent = 'Gêneros:'
 
         header.appendChild(nome)
 
@@ -280,6 +308,11 @@ if (window.location.pathname.includes('artista.html')) {
         
         const artista = document.createElement('div')
         artista.className = 'artista'
+
+        const imagem = document.createElement('img')
+        imagem.className = ''
+        artista.appendChild(imagem)
+        imagem.src = detalhesArtista.images[0].url
 
         const seguidores = document.createElement('div')
         seguidores.className = 'seguidores'
@@ -295,18 +328,27 @@ if (window.location.pathname.includes('artista.html')) {
         main.appendChild(artistSection)
         
         artistSection.appendChild(artista)
-        artista.appendChild(imagem)
         artista.appendChild(seguidores)
         seguidores.appendChild(quantidadeSeguidores)
         seguidores.appendChild(seguidoresSpan)
 
-        artistSection.appendChild(popularidade)
-        popularidade.appendChild(textPopularidade)
-        popularidade.appendChild(popularidade)
-
+        artistSection.appendChild(divPopularidade)
+        divPopularidade.appendChild(textPopularidade)
+        divPopularidade.appendChild(popularidade)
+        
         main.appendChild(generos)
         generos.appendChild(textGenero)
-    }
+
+        const arrayGeneros = detalhesArtista.genres
+
+        for(let i = 0; i < arrayGeneros.length; i++){
+            const genero = document.createElement('p')
+            generos.appendChild(genero)
+            genero.textContent = arrayGeneros[i]
+        }
+
+        
+        }
 
     criarTelaArtista()
 
